@@ -36,7 +36,7 @@ $CONFIG['enable_blockscript'] = false;
 $CONFIG['theme'] = 'default';
 
 # Run plugins on these websites
-$CONFIG['plugins'] = 'facebook.com,google.com,hotmail.com,live.com,msn.com,myspace.com,twitter.com,yahoo.com,youtube.com';
+$CONFIG['plugins'] = 'dailymotion.com,youmaker.com,youtube.com,myspacecdn.com,google.com,msn.com,myspace.com,live.com,xhamster.com,fbcdn.net,hotmail.com,facebook.com,yahoo.com,twitter.com';
 
 # Temporary directory used by the script. Many features require
 # write permission to the temporary directory. Ensure this
@@ -49,7 +49,7 @@ $CONFIG['gzip_return'] = false;
 
 # Warn users before browsing a secure site if on an unsecure
 # connection. This option has no effect if your proxy is on https.
-$CONFIG['ssl_warning'] = true;
+$CONFIG['ssl_warning'] = false;
 
 # The fastest and most reliable method of ensuring javascript is
 # properly proxied is to override the native javascript functions
@@ -101,7 +101,7 @@ $CONFIG['hotlink_domains'] = array();
 
 # Enable/disable the logging feature. If disabled, skip the rest of
 # this section.
-$CONFIG['enable_logging'] = false;
+$CONFIG['enable_logging'] = true;
 
 # Enter a destination for log files. A new log file will be created
 # each day in the directory specified. The directory must be
@@ -160,7 +160,7 @@ $CONFIG['download_speed_limit'] = 0;
 # it possible to resume previous downloads. Depending on the "Queue
 # transfers" option below, it may also allow users to download
 # multiple segments of a file simultaneously.
-$CONFIG['resume_transfers'] = false;
+$CONFIG['resume_transfers'] = true;
 
 # You can limit use of your proxy to allow only one transfer at a
 # time per user. Disable this for faster browsing.
@@ -191,11 +191,11 @@ $CONFIG['encode_cookies'] = false;
 ******************************************************************/
 
 # How often to clear the temporary files created by the script?
-$CONFIG['tmp_cleanup_interval'] = 0;
+$CONFIG['tmp_cleanup_interval'] = 24;
 
 # When should old log files be deleted? This option has no effect
 # if the above option is disabled.
-$CONFIG['tmp_cleanup_logs'] = 0;
+$CONFIG['tmp_cleanup_logs'] = 30;
 
 
 /*****************************************************************
@@ -241,20 +241,20 @@ $CONFIG['options']['stripTitle'] = array(
 	'title'	 => 'Remove Page Titles',
 	'desc'	 => 'Removes titles from proxied pages.',
 	'default' => false,
-	'force'	 => true
+	'force'	 => false
 );
 
 $CONFIG['options']['stripJS'] = array(
 	'title'	 => 'Remove Scripts',
 	'desc'	 => 'Remove scripts to protect your anonymity and speed up page loads. However, not all sites will provide an HTML-only alternative. (Recommended)',
-	'default' => true,
+	'default' => false,
 	'force'	 => false
 );
 
 $CONFIG['options']['stripObjects'] = array(
 	'title'	 => 'Remove Objects',
 	'desc'	 => 'You can increase page load times by removing unnecessary Flash, Java and other objects. If not removed, these may also compromise your anonymity.',
-	'default' => true,
+	'default' => false,
 	'force'	 => false
 );
 
