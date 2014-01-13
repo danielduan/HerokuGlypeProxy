@@ -41,7 +41,7 @@ $CONFIG['plugins'] = 'dailymotion.com,youmaker.com,youtube.com,myspacecdn.com,go
 # Temporary directory used by the script. Many features require
 # write permission to the temporary directory. Ensure this
 # directory exists and is writable for best performance.
-$CONFIG['tmp_dir'] = GLYPE_ROOT . '/tmp/';
+$CONFIG['tmp_dir'] = GLYPE_ROOT . '$HOME/tmp/';
 
 # Use GZIP compression when sending pages back to the user. This
 # reduces bandwidth usage but at the cost of increased CPU load.
