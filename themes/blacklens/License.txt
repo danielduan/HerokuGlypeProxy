@@ -1,0 +1,17 @@
+License file for the BlackLens glype template by www.glypedesigns.com
+===================================================================
+
+This theme is copyright by www.glypedesigns.com .
+
+You are free to use this theme under the following conditions:
+
+1. You retain all copyright notices in the various files of this theme. 
+
+2. You must retain the links in the footer of this theme. You are NOT allowed to remove these links under any circumstances or modify them in any way.
+
+3. You retain this license file with the rest of the theme files.
+   
+If you don't comply with the above conditions then your permission to use this theme will 
+be removed and if you continue to use this theme you will be doing so illegally.
+
+You are not allowed to redistribute this theme in modified or unmodified form.

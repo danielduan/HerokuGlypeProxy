@@ -1,0 +1,353 @@
+/* CSS Document */
+
+body {
+text-align: center;
+font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+font-size: 75%;
+background: #fff url(img/fondo_madera.jpg) repeat-x;
+margin: 0px auto;
+padding: 0px;
+color: #FFFFFF;
+}
+a:link, a:visited{
+padding: 1px;
+margin: 2px;
+color: #99ff00;
+text-decoration: none;
+font-weight: bold;
+}
+a:hover {
+color: #FFFFFF;
+background-color: #FF3366;
+text-decoration: none;
+}
+.bullet{
+margin: 0;
+padding: 0;
+list-style-image: url(img/bullet.gif);
+list-style-position: inside;
+font-size: 85%;
+}
+#wrap {
+margin:10px auto 10px;
+width: 332px;
+padding: 0px;
+position: relative;
+}
+#header {
+background: url(img/cabeza.gif);
+height: 144px;
+width: 332px;
+padding-top: 122px;
+}
+.accesskeys {
+position: absolute;
+left: -5000px;
+height: 0;
+padding: 0;
+float: left;
+}
+#header h1 {
+margin: 0px;
+padding: 0px;
+}
+#header h1 a {
+background: url(img/logo.gif) no-repeat 0px 0px;
+width: 180px;
+height: 144px;
+display: block;
+margin: 0px auto;
+padding: 0px;
+text-decoration: none;
+}
+#header h1 a span {
+display: none;
+}
+#header h1 a:hover{
+background: url(img/logo.gif) no-repeat 0px 0px;
+}
+h2{
+color: #FFFFFF;
+font-size: 140%;
+border-left: 2px solid #99FF00;
+padding-left: 6px;
+}
+strong {
+font-weight: bold;
+color: #99FF00;
+}
+/*----------------------------------------------------MAINMENU*/
+#mainmenu{
+padding: 0;
+margin: auto;
+height: 48px;
+width: 300px;
+}
+#mainmenu ul{
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+#mainmenu li{
+display: block;
+float: left;
+padding: 0;
+margin: 0;
+}
+#mainmenu a{
+width: 75px;
+height: 48px;
+padding: 0px;
+margin: 0px;
+text-decoration: none;
+display: block;
+}
+#mainmenu a span {
+display: none;
+}
+#mainmenu a:hover{
+background-position: 0px -48px;
+}
+#mainmenu a:active, #mainmenu a.selected {
+background-position: 0px -48px;
+}
+#sobre a{
+background: url(img/sobre.gif) no-repeat left top;
+}
+#portafolio a{
+background: url(img/portafolio.gif) no-repeat left top;
+}
+#weblog a{
+background: url(img/weblog.gif) no-repeat left top;
+}
+#contacto a{
+background: url(img/contacto.gif) no-repeat left top;
+}
+#sobre_en a{
+background: url(img/en_about.gif) no-repeat left top;
+}
+#portafolio_en a{
+background: url(img/en_portfolio.gif) no-repeat left top;
+}
+#weblog_en a{
+background: url(img/en_weblog.gif) no-repeat left top;
+}
+#contacto_en a{
+background: url(img/en_contact.gif) no-repeat left top;
+}
+#sobre_fr a{
+background: url(img/fr_sur.gif) no-repeat left top;
+}
+#portafolio_fr a{
+background: url(img/en_portfolio.gif) no-repeat left top;
+}
+#weblog_fr a{
+background: url(img/en_weblog.gif) no-repeat left top;
+}
+#contacto_fr a{
+background: url(img/en_contact.gif) no-repeat left top;
+}
+/*----------------------------------------------------MAINMENU END*/
+#content, #portfolio_content{
+margin: 0px auto;
+width: 260px;
+padding: 5px 20px;
+text-align: left;
+background: #330000 url(img/fondo_content.gif) repeat-y;
+}
+li {
+list-style-type: none;
+}
+#content a {
+}
+#clear {
+height: 42px;
+margin: 0px auto;
+padding: 0;
+width: 300px;
+background: url(img/pages_barra_roj_down.gif) repeat-x top;
+}
+/*----------------------------------------------------LANGUAGE*/
+#language{
+font-size: 70%;
+width: 57px;
+margin: 0px;
+padding: 0px;
+position: absolute;
+top: 160px;
+right: 316px;
+text-decoration: none;
+border: none;
+}
+#language ul{
+margin: 0;
+padding: 0;
+}
+#language li{
+text-align: left;
+display: block;
+padding: 0;
+margin: 0;
+}
+#language a{
+width: 57px;
+height: 15px;
+padding: 0px;
+margin: 2px 0px;
+text-decoration: none;
+display: block;
+text-indent: -1000em;
+}
+#language a:hover{
+background-position: 0 -15px;
+}
+#language a.seleclang, #language a:hover.seleclang{
+background-position: 0 -30px;
+}
+#es a{
+background: url(img/es.gif) no-repeat left top;
+}
+#en a{
+background: url(img/en.gif) no-repeat left top;
+}
+#fr a{
+background: url(img/fr.gif) no-repeat left top;
+}
+/*----------------------------------------------------END LANGUAGE*/
+/*----------------------------------------------------FOOTER*/
+#footer{
+font-size: 90%;
+background: url(img/pie.gif) no-repeat center top;
+height: 89px;
+width: 327px;
+margin: 0px auto;
+}
+#footer ul{
+list-style: none;
+margin: 0px auto;
+padding: 20px 10px 0px;
+width: 280px;
+}
+#footer li{
+display: inline;
+}
+#footer a{
+font-weight: normal;
+}
+#footer a:link, #footer a:visited{
+padding: 1px 4px;
+color: #330000;
+background-color: #99ff00;
+text-decoration: none;
+margin: 1px;
+}
+#footer a:hover {
+color: #FFFFFF;
+background-color: #FF3366;
+}
+/*----------------------------------------------------PORTFOLIO*/
+.bocetos, .ilustracion, .personajes, .identidad, .impresos, .web{
+padding: 0;
+margin: 0px auto;
+}
+.bocetos, .ilustracion, .personajes, .identidad,.impresos{
+height: 130px;
+}
+.web{
+height: 140px;
+}
+.bocetos, .ilustracion, .personajes, .identidad , .impresos, .web{
+padding: 0;
+margin: 0px auto;
+}
+.bocetos ul, .ilustracion ul, .personajes ul, .identidad ul, .impresos ul, .web ul{
+list-style-image: none;
+list-style-type: none;
+padding: 0;
+margin: 0;
+}
+.bocetos li, .ilustracion li, .personajes li, .identidad li, .impresos li, .web li{
+display: block;
+float: left;
+padding: 0;
+margin: 0;
+}
+.bocetos img, .ilustracion img, .personajes img, .identidad img, .impresos img, .web img{
+display: block;
+float: left;
+border: none;
+padding: 0;
+margin: 0;
+}
+.bocetos a, .ilustracion a, .personajes a, .identidad a, .impresos a, .web a{
+display: block;
+margin: 3px;
+border: 4px solid #99FF00;
+height: 49px;
+width: 49px;
+text-decoration: none;
+}
+.bocetos a:hover, .ilustracion a:hover, .personajes a:hover, .identidad a:hover, .impresos a:hover, .web a:hover{
+border: 4px solid #FF3366;
+}
+/*----------------------------------------------------weblog*/
+li.alt{
+background: #663300;
+}
+.commentlist{
+text-indent: 0px;
+list-style-type: none;
+padding: 0;
+margin: auto;
+}
+.post_orla_up{
+height: 25px;
+padding: 0;
+margin: 0;
+background: url(img/blog_sobre.jpg) no-repeat left top;
+}
+.post_orla_down{
+height: 25px;
+background: url(img/blog_fondo.jpg) no-repeat left top;
+}
+.commentlist p {
+padding: 8px;
+}
+.commentlist cite {
+font-weight: bold;
+}
+.archivos li, .categorias li {
+text-indent: -30px;
+list-style: none;
+}
+.micomentario cite, .micomentario small {
+padding: 30px;
+}
+.micomentario {
+background: url(img/bullet_autor.gif) no-repeat left top;
+}
+/*----------------------------------------------------contacto*/
+form, input, textarea{
+font-size: 100%;
+font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+input{
+border: none;
+width: 99%;
+background: #fff url(img/fondo_input.gif) repeat-x ;
+}
+textarea{
+border: none;
+width: 99%;
+height: 100px;
+background: #fff url(img/fondo_textarea.gif) repeat-x ;
+}
+#boton_enviar, #searchsubmit, #submit{
+color: #FFFFFF;
+background: #FF3366;
+width: 60px;
+}
+/*----------------------------------------------------lightbox*/
+#lightbox a:hover {
+background-color: #FFFFFF;
+}
