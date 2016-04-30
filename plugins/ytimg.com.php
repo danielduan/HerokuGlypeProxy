@@ -7,10 +7,13 @@
 * http://www.glype.com/license.php
 ******************************************************************/
 
-function preParse($html,$type) {
-	if ( stripos($html,'JavaScript required to sign in') ) {
-		header("Location: " . proxyURL('https://mid.live.com/si/login.aspx'));
-		exit;
+function preParse($input, $type) {
+	switch($type) {
+		case 'css':
+			$input = preg_replace('#masthead\-positioner\{[^\}]+\}#s', 'masthead-positioner{position:absolute;top:100;right:0;left:0;z-index:1999999999}', $input);
+
+		break;
 	}
-    return $html;
+
+	return $input;
 }

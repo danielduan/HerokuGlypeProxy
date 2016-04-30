@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2016 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -48,7 +48,7 @@ header('Last-Modified:');
 
 /*****************************************************************
 * Find URI of resource to load
-* NB: flag and bitfield already extracted in /includes/init.php
+* Flag and bitfield already extracted in /includes/init.php
 ******************************************************************/
 
 switch ( true ) {
@@ -56,11 +56,11 @@ switch ( true ) {
 	# Try query string for URL
 	case ! empty($_GET['u']) && ( $toLoad = deproxyURL($_GET['u'], true) ):
 		break;
-		
+
 	# Try path info
 	case ! empty($_SERVER['PATH_INFO'])	 && ( $toLoad = deproxyURL($_SERVER['PATH_INFO'], true) ):
 		break;
-		
+
 	# Found no valid URL, return to index
 	default:
 		redirect();
@@ -96,15 +96,34 @@ $URL = array(
 # seems to 'fix' the majority of cases.
 $URL['href'] = str_replace(' ', '%20', $toLoad);
 
-# Protect LAN from access through proxy (protected addresses copied from PHProxy)
-if ( preg_match('#^(?:127\.|192\.168\.|10\.|172\.(?:1[6-9]|2[0-9]|3[01])\.|localhost)#i', $URL['host']) ) {
+
+# Add any supplied authentication information to our auth array
+if ($URL['auth']) {
+	$_SESSION['authenticate'][$URL['scheme_host']] = $URL['auth'];
+}
+
+
+
+/*****************************************************************
+* Protect LAN from access through proxy
+* This does not stop all hostnames that resolve to LAN IPs
+* unless the line containing "gethostbyname" is uncommented below
+******************************************************************/
+if (preg_match('#^localhost#i', $URL['host'])) {
 	error('banned_site', $URL['host']);
 }
 
-# Add any supplied authentication information to our auth array
-if ( $URL['auth'] ) {
-	$_SESSION['authenticate'][$URL['scheme_host']] = $URL['auth'];
+$host = $URL['host'];
+
+#$host = gethostbyname($host); # uncomment for more complete protection
+
+if (preg_match('#^\d+$#', $host)) { # decimal IPs
+	$host = implode('.', array($host>>24&255, $host>>16&255, $host>>8&255, $host&255));
 }
+if (preg_match('#^(0|10|127|169\.254|192\.168|172\.(?:1[6-9]|2[0-9]|3[01])|2[2-5][0-9])\.#', $host)) { # special use netblocks
+	error('banned_site', $host);
+}
+
 
 
 /*****************************************************************
@@ -119,23 +138,20 @@ if ( $CONFIG['stop_hotlinking'] && empty($_SESSION['no_hotlink']) ) {
 
 	# Ensure we have valid referrer information to check
 	if ( ! empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'http') === 0 ) {
-		
+
 		# Examine all the allowed domains (including our current domain)
 		foreach ( array_merge( (array) GLYPE_URL, $CONFIG['hotlink_domains'] ) as $domain ) {
 
 			# Do a case-insensitive comparison
 			if ( stripos($_SERVER['HTTP_REFERER'], $domain) !== false ) {
-				
+
 				# This referrer is OK
 				$tmp = false;
 				break;
-				
 			}
-		
 		}
-
 	}
-	
+
 	# Redirect to index if this is still identified as hotlinking
 	if ( $tmp ) {
 		error('no_hotlink');
@@ -251,8 +267,8 @@ if ( ! $CONFIG['queue_transfers'] ) {
 ******************************************************************/
 
 if (
-	# Option enabled (and possible? safe_mode prevents shell_exec)
-	! SAFE_MODE && $CONFIG['load_limit']
+	# Option enabled
+	$CONFIG['load_limit']
 
 	# Ignore inline elements - when borderline on the server load, if the HTML
 	# page downloads fine but the inline images, css and js are blocked, the user
@@ -311,6 +327,11 @@ $toSet[CURLOPT_SSL_VERIFYHOST] = false;
 
 # Send an empty Expect header (avoids 100 responses)
 $toSet[CURLOPT_HTTPHEADER][] = 'Expect:';
+
+# Use IPv4 for DNS resolution
+if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
+	$toSet[CURLOPT_IPRESOLVE][] = 'CURL_IPRESOLVE_V4';
+}
 
 # Can we use "If-Modified-Since" to save a transfer? Server can return 304 Not Modified
 if ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
@@ -373,7 +394,7 @@ $toSet[CURLOPT_DNS_CACHE_TIMEOUT] = 600;
 * No point sending back a file that the browser won't understand.
 * Forward all the "Accept" headers. For each, check if it exists
 * and if yes, add to the custom headers array.
-* NB: These may cause problems if the target server provides different
+* These may cause problems if the target server provides different
 * content for the same URI based on these headers and we cache the response.
 ******************************************************************/
 
@@ -462,7 +483,7 @@ if ( $options['allowCookies'] ) {
 		if ( $s = checkTmpDir($CONFIG['cookies_folder'], 'Deny from all') ) {
 
 			# Set cURL to use this as the cookie jar
-			$toSet[CURLOPT_COOKIEFILE] = $toSet[CURLOPT_COOKIEJAR] = $CONFIG['cookies_folder'] . session_id();
+			$toSet[CURLOPT_COOKIEFILE] = $toSet[CURLOPT_COOKIEJAR] = $CONFIG['cookies_folder'] . glype_session_id();
 
 		}
 
@@ -632,6 +653,11 @@ if ( $options['allowCookies'] ) {
 
 if ( ! empty($_POST) ) {
 
+	# enable backward compatibility with cURL's @ option for uploading files in PHP 5.5 and 5.6
+	if (version_compare(PHP_VERSION, '5.5')>=0) {
+		$toSet[CURLOPT_SAFE_UPLOAD] = false;
+	}
+
 	# Attempt to get raw POST from the input wrapper
 	if ( ! ($tmp = file_get_contents('php://input')) ) {
 
@@ -785,7 +811,7 @@ class Request {
 
 	# Speed limit (bytes per second)
 	private $speedLimit = 0;
-	
+
 	# URL array split into pieces
 	private $URL;
 
@@ -814,7 +840,7 @@ class Request {
 		if ( $CONFIG['max_filesize'] ) {
 			$this->limitFilesize = $CONFIG['max_filesize'];
 		}
-		
+
 		# Determine speed limit
 		if ( $CONFIG['download_speed_limit'] ) {
 			$this->speedLimit = $CONFIG['download_speed_limit'];
@@ -825,9 +851,7 @@ class Request {
 		$this->curlOptions = $curlOptions;
 
 		# Extend the PHP timeout
-		if ( ! SAFE_MODE ) {
-			set_time_limit($CONFIG['transfer_timeout']);
-		}
+		set_time_limit($CONFIG['transfer_timeout']);
 
 		# Record debug information
 		if ( DEBUG_MODE ) {
@@ -1042,6 +1066,11 @@ class Request {
 				$this->parseType = $types[$mime];
 			}
 
+			# validate mimetypes
+			if (!preg_match('#^(application|audio|image|text|video)/#i', $mime)) {
+				header('Content-Type: text/plain');
+			}
+
 		} else {
 
 			# Tell our read body function to 'sniff' the data to determine type
@@ -1088,10 +1117,10 @@ class Request {
 
 		# Find length of data
 		$length = strlen($data);
-		
+
 		# Limit speed to X bytes/second
 		if ( $this->speedLimit ) {
-			
+
 			# Limit download speed
 			# Speed		 = Amount of data / Time
 			# [bytes/s] = [bytes]			/ [s]
@@ -1102,9 +1131,8 @@ class Request {
 
 			# Convert time to microseconds and sleep for that value
 			usleep(round($time * 1000000));
-			
 		}
-		
+
 		# Monitor length if desired
 		if ( $this->limitFilesize ) {
 
@@ -1154,21 +1182,14 @@ class Request {
 
 	private function firstBody($data) {
 
-		# Do we want to sniff the data? Determines if ascii or binary.
+		# Do we want to sniff the data to gues the mimetype?
 		if ( $this->sniff ) {
-
-			# Take a sample of 100 chars chosen at random
-			$length = strlen($data);
-			$sample = $length < 150 ? $data : substr($data, rand(0, $length-100), 100);
-
-			# Assume ASCII if more than 95% of bytes are "normal" text characters
-			if ( strlen(preg_replace('#[^A-Z0-9\!"$%\^&*\(\)=\+\\\\|\[\]\{\};:\\\'\@\#~,\.<>/\?\-]#i', '', $sample)) > 95 ) {
-
-				# To do: expand this to detect if html/js/css
+			if (stripos($data, '<html')!==false && stripos($data, '<head')!==false) {
+				header('Content-Type: text/html');
 				$this->parseType = 'html';
-
+			} else {
+				header('Content-Type: text/plain');
 			}
-
 		}
 
 		# Now we know if parsing is required, we can forward content-length
@@ -1424,7 +1445,7 @@ if ( $fetch->abort ) {
 			if ( ! $fetch->parseType ) {
 				exit;
 			}
-		
+
 			# Send to error page with filesize limit expressed in MB
 			error('file_too_large', round($CONFIG['max_filesize']/1024/1024, 3));
 			exit;
@@ -1495,7 +1516,7 @@ if ( $fetch->parseType ) {
 
 	# Load the main parser
 	require GLYPE_ROOT . '/includes/parser.php';
-	
+
 	# Create new instance, passing in the options that affect parsing
 	$parser = new parser($options, $jsFlags);
 
@@ -1515,7 +1536,6 @@ if ( $fetch->parseType ) {
 
 				# Showing the mini-form?
 				if ( $options['showForm'] ) {
-				
 					$toShow = array();
 
 					# Prepare the options
@@ -1547,7 +1567,7 @@ if ( $fetch->parseType ) {
 
 					# Load the template
 					$insert = loadTemplate('framedForm.inc', $vars);
-					
+
 					# Wrap in enable/disble override to prevent the overriden functions
 					# affecting anything in the mini-form (like ad codes)
 					if ( $CONFIG['override_javascript'] ) {
@@ -1555,7 +1575,6 @@ if ( $fetch->parseType ) {
 								  . $insert
 								  . '<script type="text/javascript">enableOverride();</script>';
 					}
-					
 				}
 
 				# And load the footer

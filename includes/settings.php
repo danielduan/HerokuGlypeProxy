@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2013 UpsideOut, Inc. d/b/a Glype
+* Glype is copyright and trademark 2007-2016 UpsideOut, Inc. d/b/a Glype
 * and/or its licensors, successors and assigners. All rights reserved.
 *
 * Use of Glype is subject to the terms of the Software License Agreement.
@@ -36,12 +36,12 @@ $CONFIG['enable_blockscript'] = false;
 $CONFIG['theme'] = 'default';
 
 # Run plugins on these websites
-$CONFIG['plugins'] = 'dailymotion.com,youmaker.com,youtube.com,myspacecdn.com,google.com,msn.com,myspace.com,live.com,xhamster.com,fbcdn.net,hotmail.com,facebook.com,yahoo.com,twitter.com';
+$CONFIG['plugins'] = 'facebook.com,google.com,hotmail.com,live.com,msn.com,myspace.com,twitter.com,yahoo.com,youtube.com,ytimg.com';
 
 # Temporary directory used by the script. Many features require
 # write permission to the temporary directory. Ensure this
 # directory exists and is writable for best performance.
-$CONFIG['tmp_dir'] = GLYPE_ROOT . '$HOME/tmp/';
+$CONFIG['tmp_dir'] = GLYPE_ROOT . '/tmp/';
 
 # Use GZIP compression when sending pages back to the user. This
 # reduces bandwidth usage but at the cost of increased CPU load.
@@ -101,7 +101,7 @@ $CONFIG['hotlink_domains'] = array();
 
 # Enable/disable the logging feature. If disabled, skip the rest of
 # this section.
-$CONFIG['enable_logging'] = true;
+$CONFIG['enable_logging'] = false;
 
 # Enter a destination for log files. A new log file will be created
 # each day in the directory specified. The directory must be
@@ -130,7 +130,7 @@ $CONFIG['blacklist'] = array();
 * User access control
 ******************************************************************/
 
-# 
+#
 $CONFIG['ip_bans'] = array();
 
 
@@ -191,11 +191,11 @@ $CONFIG['encode_cookies'] = false;
 ******************************************************************/
 
 # How often to clear the temporary files created by the script?
-$CONFIG['tmp_cleanup_interval'] = 24;
+$CONFIG['tmp_cleanup_interval'] = 12;
 
 # When should old log files be deleted? This option has no effect
 # if the above option is disabled.
-$CONFIG['tmp_cleanup_logs'] = 30;
+$CONFIG['tmp_cleanup_logs'] = 36;
 
 
 /*****************************************************************
@@ -241,20 +241,20 @@ $CONFIG['options']['stripTitle'] = array(
 	'title'	 => 'Remove Page Titles',
 	'desc'	 => 'Removes titles from proxied pages.',
 	'default' => false,
-	'force'	 => false
+	'force'	 => true
 );
 
 $CONFIG['options']['stripJS'] = array(
 	'title'	 => 'Remove Scripts',
 	'desc'	 => 'Remove scripts to protect your anonymity and speed up page loads. However, not all sites will provide an HTML-only alternative. (Recommended)',
-	'default' => false,
+	'default' => true,
 	'force'	 => false
 );
 
 $CONFIG['options']['stripObjects'] = array(
 	'title'	 => 'Remove Objects',
 	'desc'	 => 'You can increase page load times by removing unnecessary Flash, Java and other objects. If not removed, these may also compromise your anonymity.',
-	'default' => false,
+	'default' => true,
 	'force'	 => false
 );
 
@@ -265,10 +265,8 @@ $CONFIG['options']['stripObjects'] = array(
 
 # Settings file version for determining compatability with admin
 # tool.
-$CONFIG['version'] = '1.4.6';
+$CONFIG['version'] = '1.4.15';
 
 //---PRESERVE ME---
 // Anything below this line will be preserved when the admin control panel rewrites
 // the settings. Useful for storing settings that don't/can't be changed from the control panel
-
-$adminDetails['root'] = '5e9662c96ffb02d0a86586f6e189e53d';
