@@ -88,7 +88,7 @@ $CONFIG['unique_urls'] = false;
 
 # This option prevents users "hotlinking" directly to a proxied
 # page and forces all users to first visit the index page.
-$CONFIG['stop_hotlinking'] = true;
+$CONFIG['stop_hotlinking'] = false;
 
 # If the above option is enabled, you can add individual referrers
 # that are allowed to bypass the hotlinking protection.
